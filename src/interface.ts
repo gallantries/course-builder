@@ -7,6 +7,7 @@ export type CourseSection = {
    * Title of the section
    */
   title: string;
+  id: Number;
   description: string;
   trainings: Array<CourseItem>;
 };
@@ -36,4 +37,13 @@ export type CourseEvent = {
    * List of CourseSections
    */
   program: CourseSections;
+
+  /**
+   * Location of the event
+   */
+  location: String;
+  cost: String;
+  audience: String;
+  start: Date;
+  end: Date;
 };

@@ -7,6 +7,12 @@ class VideoLibraryDataService {
   getSessions(): Promise<any> {
     return http.get("/sessions.json");
   }
+  getInstructors(): Promise<any> {
+    return http.get('/instructors.json');
+  }
+  getInstitutions(): Promise<any> {
+    return http.get('/affiliations.json');
+  }
   //   get(id: any): Promise<any> {
   //     return http.get(`/tutorials/${id}`);
   //   }

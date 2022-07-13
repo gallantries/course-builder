@@ -201,11 +201,7 @@ export default defineComponent({
 
 				<Tab :id="'schedule'">
 					<div v-for="key in sortedScheduleKeys">
-						<input
-							v-bind:value="event.program[key].title"
-							style="font-size: 200%"
-							@input="updateProgramTitle(key, $event)"
-						/>
+						<BootstrapInput :title="'Module Title'" :help="'Something like Setup or Day 1'" v-model="event.program[key].title" />
 						<p>
 							<BootstrapInput :title="'Description'" :help="'What will be covered in this section?'" v-model="event.program[key].description" />
 						</p>
@@ -225,7 +221,6 @@ export default defineComponent({
 						</div>
 					</div>
 					<button class="btn btn-secondary" @click="addProgramSection()">Add new section</button>
-					<pre>{{ event.program }}</pre>
 				</Tab>
 
 				<Tab :id="'configure-event'">

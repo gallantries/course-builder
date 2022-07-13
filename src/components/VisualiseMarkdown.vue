@@ -2,6 +2,7 @@
 import { defineComponent } from "vue";
 import type { CourseEvent } from "../interface.js";
 import { dump } from "js-yaml";
+import { transformModel } from "@vue/compiler-core";
 
 export default defineComponent({
 	props: {
@@ -11,7 +12,7 @@ export default defineComponent({
 		yamlEvent() {
 			let clone = JSON.parse(JSON.stringify(this.event));
 			Object.keys(clone.program).forEach(key => {
-				clone.program[key].trainings = clone.program[key].trainings.map((x: any) => {x.id})
+				clone.program[key].trainings = clone.program[key].trainings.map((x: any) => x.id) // TODO: not quite correct Need to be an {video: id}
 				delete clone.program[key].id
 			});
 			return dump(clone);

@@ -25,7 +25,7 @@ export default defineComponent({
 			aria-describedby="'input-help-' + id"
 			:id="'input-' + id"
 			:value="value"
-			@input="$emit('update:value', $event.target.value)"
+			@input="$emit('update:value', ($event.target! as HTMLInputElement).value)"
 		/>
 		<span :id="'input-help-' + id" class="form-text">{{ help }}</span>
 	</div>

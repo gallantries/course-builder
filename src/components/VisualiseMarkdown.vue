@@ -11,7 +11,7 @@ export default defineComponent({
 		yamlEvent() {
 			let clone = JSON.parse(JSON.stringify(this.event));
 			Object.keys(clone.program).forEach(key => {
-				clone.program[key].trainings = clone.program[key].trainings.map(x => x.id)
+				clone.program[key].trainings = clone.program[key].trainings.map((x: any) => {x.id})
 				delete clone.program[key].id
 			});
 			return dump(clone);

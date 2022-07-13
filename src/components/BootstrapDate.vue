@@ -1,9 +1,10 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import type { PropType } from 'vue';
 
 export default defineComponent({
 	props: {
-		value: String,
+		value: Object as PropType<string>,
 		title: { type: String, required: true },
 		help: { type: String, required: false },
 	},
@@ -25,7 +26,7 @@ export default defineComponent({
 			aria-describedby="'input-help-' + id"
 			:id="'input-' + id"
 			:value="value"
-			@input="$emit('update:value', $event.target.value)"
+			@input="$emit('update:value', ($event.target! as any).value)"
 		/>
 		<span :id="'input-help-' + id" class="form-text">{{ help }}</span>
 	</div>

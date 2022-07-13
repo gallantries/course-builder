@@ -1,6 +1,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import VideoLibraryDataService from "@/services/VideoLibraryDataService";
+import type { CourseEvent, CourseSection, CourseSections } from "@/interface.js";
+import type { PropType } from 'vue';
 
 export default defineComponent({
 	data() {
@@ -12,7 +14,7 @@ export default defineComponent({
 		};
 	},
 	props: {
-		basket: { type: Array<string>, required: true },
+		basket: { type: Object as PropType<CourseSections>, required: true },
 	},
 	emits: ["scheduleUpdate"],
 	methods: {
@@ -29,6 +31,8 @@ export default defineComponent({
 			});
 		},
 		addToBasket(event: Event) {
+			// We don't actually add to our own basket, instead notify the
+			// parent and they'll track it.
 			if (event.target) {
 				const target = event.target as HTMLElement;
 				const targetId = (target.parentElement as HTMLElement).id;
@@ -46,10 +50,16 @@ export default defineComponent({
 			return Object.keys(this.videoList[tag as keyof typeof this.videoList]);
 		},
 		shouldBeActive(key: string) {
-			if (this.basket.filter((x) => (x as any).id === key).length > 0) {
-				console.log(key);
-			}
-			return this.basket.filter((x) => (x as any).id === key).length > 0 ? "active" : "";
+			let output = "";
+			// Check if the key is in one of the training sections
+			Object.keys(this.basket).forEach((section) => {
+				this.basket[section].trainings.forEach((training) => {
+					if(training.id === key) {
+						output = "active";
+					}
+				})
+			});
+			return output;
 		},
 		unKebab(value: string) {
 			return value

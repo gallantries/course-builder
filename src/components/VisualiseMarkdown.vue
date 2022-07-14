@@ -1,8 +1,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import type { CourseEvent } from "../interface.js";
+import { getCourseItemKey, type CourseEvent, type CourseItemOptions } from "../interface.js";
 import { dump } from "js-yaml";
 import { transformModel } from "@vue/compiler-core";
+import CopyButton from "./CopyButton.vue";
 
 export default defineComponent({
 	props: {
@@ -11,23 +12,41 @@ export default defineComponent({
 	computed: {
 		yamlEvent() {
 			let clone = JSON.parse(JSON.stringify(this.event));
-			Object.keys(clone.program).forEach(key => {
-				clone.program[key].trainings = clone.program[key].trainings.map((x: any) => x.id) // TODO: not quite correct Need to be an {video: id}
-				delete clone.program[key].id
+			Object.keys(clone.program).forEach((key) => {
+				clone.program[key].trainings = clone.program[key].trainings.map((x: CourseItemOptions) => {
+					if (getCourseItemKey(x) === null) {
+						return x;
+					}
+					return getCourseItemKey(x);
+				});
+				delete clone.program[key].id;
 			});
+			console.log(clone);
+			delete clone["content"];
 			return dump(clone);
 		},
+		markdownText() {
+			if (this.event.content !== undefined) {
+				return this.event.content.replace(/\\n/, "\n") || "Write some content here!";
+			}
+			return "Write some content here!";
+		},
+		fullText() {
+			return '---\n' + this.yamlEvent + '\n---\n' + this.markdownText
+		}
 	},
+	components: { CopyButton },
 });
 </script>
 
 <template>
+	<CopyButton :data="fullText"></CopyButton>
 	<pre>
 ---
 {{ yamlEvent }}
 ---
 
-Your event data goes here
+{{ markdownText }}
         </pre>
 </template>
 

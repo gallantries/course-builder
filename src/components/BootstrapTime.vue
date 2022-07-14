@@ -3,7 +3,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
 	props: {
-		value: String,
+		modelValue: String,
 		title: { type: String, required: true },
 		help: { type: String, required: false },
 	},
@@ -12,7 +12,7 @@ export default defineComponent({
 			return this.title.toLowerCase().replace(/\s/g, "-").replace(/[^a-z0-9-]/g, "");
 		},
 	},
-	emits: ["update:value"],
+	emits: ["update:modelValue"],
 });
 </script>
 
@@ -24,8 +24,8 @@ export default defineComponent({
 			class="form-control"
 			aria-describedby="'input-help-' + id"
 			:id="'input-' + id"
-			:value="value"
-			@input="$emit('update:value', ($event.target! as HTMLInputElement).value)"
+			:value="modelValue"
+			@change="$emit('update:modelValue', ($event.target! as HTMLInputElement).value)"
 		/>
 		<span :id="'input-help-' + id" class="form-text">{{ help }}</span>
 	</div>

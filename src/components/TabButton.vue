@@ -4,6 +4,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   props: {
     text: { type: String, required: true },
+    active: { type: Boolean, required: false},
   },
   data() {
     const id_safe = this.text
@@ -21,7 +22,7 @@ export default defineComponent({
 
 <template>
   <button
-    class="nav-link"
+    :class="'nav-link' + (active ? ' active' : '')"
     :id="tab_id"
     data-bs-toggle="tab"
     :data-bs-target="tab_target"

@@ -2,34 +2,18 @@
 import { defineComponent } from "vue";
 import VideoLibraryDataService from "@/services/VideoLibraryDataService";
 import type { CourseEvent, CourseSection, CourseSections } from "@/interface.js";
+import { getCourseItemKey, convertCourseItemToCourseItemOption } from "@/interface";
 import type { PropType } from 'vue';
 
 export default defineComponent({
-	data() {
-		return {
-			videoList: Map<any, any>,
-			sessionList: [] as any[],
-			basicsList: ["setup", "setup-gat", "code-of-conduct", "certificates", "logistics", "feedback"],
-			loading: false,
-		};
-	},
 	props: {
 		basket: { type: Object as PropType<CourseSections>, required: true },
+		videoList: Map<string, any>,
+		sessionList: [] as any[],
+		basicsList: Array<string>,
 	},
 	emits: ["scheduleUpdate"],
 	methods: {
-		fetchData() {
-			this.loading = true;
-			// Load videos
-			VideoLibraryDataService.getVideosByTags().then((res) => {
-				this.videoList = res.data;
-				// And sessions
-				VideoLibraryDataService.getSessions().then((res) => {
-					this.sessionList = res.data;
-					this.loading = false;
-				});
-			});
-		},
 		addToBasket(event: Event) {
 			// We don't actually add to our own basket, instead notify the
 			// parent and they'll track it.
@@ -47,6 +31,7 @@ export default defineComponent({
 		getVideosForTag(tag: string) {
 			// return Object.keys(this.videoList[tag]);
 			// You're really telling me THIS is better???
+			if(!this.videoList) return [];
 			return Object.keys(this.videoList[tag as keyof typeof this.videoList]);
 		},
 		shouldBeActive(key: string) {
@@ -54,7 +39,7 @@ export default defineComponent({
 			// Check if the key is in one of the training sections
 			Object.keys(this.basket).forEach((section) => {
 				this.basket[section].trainings.forEach((training) => {
-					if(training.id === key) {
+					if(getCourseItemKey(training) === key) {
 						output = "active";
 					}
 				})
@@ -67,10 +52,7 @@ export default defineComponent({
 				.map((x) => x.charAt(0).toUpperCase() + x.slice(1))
 				.join(" ");
 		},
-	},
-	mounted() {
-		this.fetchData();
-	},
+	}
 });
 </script>
 
@@ -93,7 +75,7 @@ export default defineComponent({
 			</a>
 		</ul>
 		<b>Individual Videos</b>
-		<div v-for="tag in Object.keys(videoList)" :key="tag">
+		<div v-for="tag in Object.keys(videoList as any)" :key="tag">
 			<b>{{ tag.toUpperCase() }}</b>
 			<ul class="list-group a">
 				<a
@@ -105,7 +87,7 @@ export default defineComponent({
 					<li class="list-group-item" :class="'list-group-item ' + shouldBeActive(`video:${videoKey}`)">
 						{{ (videoList as any)[tag].videos[videoKey].title }}
 
-						<span
+						<span class="uncaptioned"
 							v-if="!(videoList as any)[tag].videos[videoKey].captioned"
 							title="This video lacks captions, it is not appropriate for users with a hearing impairment. Captions are welcome if you have time, just ask WG-GOAT!"
 							>🧏‍♀️</span
@@ -121,5 +103,9 @@ export default defineComponent({
 .module-list {
 	max-height: 700px;
 	overflow-y: scroll;
+}
+
+.uncaptioned {
+	cursor: help;
 }
 </style>

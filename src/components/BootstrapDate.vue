@@ -4,7 +4,7 @@ import type { PropType } from 'vue';
 
 export default defineComponent({
 	props: {
-		value: Object as PropType<string>,
+		modelValue: Object as PropType<string>,
 		title: { type: String, required: true },
 		help: { type: String, required: false },
 	},
@@ -13,7 +13,7 @@ export default defineComponent({
 			return this.title.toLowerCase().replace(/\s/g, "-").replace(/[^a-z0-9-]/g, "");
 		},
 	},
-	emits: ["update:value"],
+	emits: ["update:modelValue"],
 });
 </script>
 
@@ -25,8 +25,8 @@ export default defineComponent({
 			class="form-control"
 			aria-describedby="'input-help-' + id"
 			:id="'input-' + id"
-			:value="value"
-			@input="$emit('update:value', ($event.target! as any).value)"
+			:value="modelValue"
+			@input="$emit('update:modelValue', ($event.target! as HTMLInputElement).value)"
 		/>
 		<span :id="'input-help-' + id" class="form-text">{{ help }}</span>
 	</div>

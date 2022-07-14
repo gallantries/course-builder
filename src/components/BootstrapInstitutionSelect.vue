@@ -1,10 +1,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import type { PropType } from 'vue';
 import VideoLibraryDataService from "@/services/VideoLibraryDataService";
 
 export default defineComponent({
 	props: {
-		value: String,
+		modelValue: Object as PropType<Array<string> | null | undefined>,
 		text: { type: String, required: true },
 		help: { type: String, required: false },
 	},
@@ -15,7 +16,7 @@ export default defineComponent({
 			instructor_keys: [] as Array<string>,
 		}
 	},
-	emits: ["update:value"],
+	emits: ["update:modelValue"],
 	computed: {
 		id(): string {
 			return this.text.toLowerCase().replace(/\s/g, "-").replace(/[^a-z0-9-]/g, "");
@@ -36,7 +37,7 @@ export default defineComponent({
 		},
 		shareUpdates(event: any) {
 			let selected = [...event.target.options].filter(option => option.selected).map(option => option.value)
-			this.$emit('update:value', selected)
+			this.$emit('update:modelValue', selected)
 		}
 	},
 	mounted() {
@@ -53,10 +54,10 @@ export default defineComponent({
 			class="form-select"
 			multiple
 			:aria-describedby="'input-help-' + id"
-			style="height: 300px"
+			style="height: 8em"
 			@change="shareUpdates($event)"
 		>
-			<option v-for="key in instructor_keys" :value="key" :key="key">{{ (instructors as any)[key].name }} (@{{ key }})</option>
+			<option v-for="key in instructor_keys" :value="key" :key="key" :selected="(modelValue || []).indexOf(key) > -1">{{ (instructors as any)[key].name }} (@{{ key }})</option>
 		</select>
 
 		<span :id="'input-help-' + id" class="form-text">{{ help }}</span>

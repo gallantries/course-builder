@@ -11,16 +11,19 @@
   },
   "dependencies": {
     "@types/js-yaml": "^4.0.5",
+    "@uivjs/vue-markdown-preview": "^1.0.3",
     "@vue/compat": "^3.2.37",
     "axios": "^0.27.2",
     "js-yaml": "^4.1.0",
     "vue": "^3.2.37",
+    "vue-select": "^4.0.0-beta.3",
     "vue3-draggable": "^2.0.9",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.0",
     "@types/node": "^16.11.41",
+    "@types/vue-select": "^3.16.0",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^11.0.0",

@@ -9,7 +9,10 @@ export default defineComponent({
 	},
 	computed: {
 		id() {
-			return this.title.toLowerCase().replace(/\s/g, "-").replace(/[^a-z0-9-]/g, "");
+			return this.title
+				.toLowerCase()
+				.replace(/\s/g, "-")
+				.replace(/[^a-z0-9-]/g, "");
 		},
 	},
 	emits: ["update:modelValue"],
@@ -18,16 +21,25 @@ export default defineComponent({
 
 <template>
 	<div>
-		<label :for="'input-' + id" class="col-form-label">{{ title }}</label>
+		<label :for="'input-' + id" class="col-form-label">{{
+			title
+		}}</label>
 		<input
-                  type="time"
+			type="time"
 			class="form-control"
 			aria-describedby="'input-help-' + id"
 			:id="'input-' + id"
 			:value="modelValue"
-			@change="$emit('update:modelValue', ($event.target! as HTMLInputElement).value)"
+			@change="
+				$emit(
+					'update:modelValue',
+					($event.target! as HTMLInputElement)
+						.value
+				)
+			"
 		/>
-		<span :id="'input-help-' + id" class="form-text">{{ help }}</span>
+		<span :id="'input-help-' + id" class="form-text">{{
+			help
+		}}</span>
 	</div>
 </template>
-

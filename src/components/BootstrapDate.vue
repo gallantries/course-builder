@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import type { PropType } from 'vue';
+import type { PropType } from "vue";
 
 export default defineComponent({
 	props: {
@@ -10,7 +10,10 @@ export default defineComponent({
 	},
 	computed: {
 		id() {
-			return this.title.toLowerCase().replace(/\s/g, "-").replace(/[^a-z0-9-]/g, "");
+			return this.title
+				.toLowerCase()
+				.replace(/\s/g, "-")
+				.replace(/[^a-z0-9-]/g, "");
 		},
 	},
 	emits: ["update:modelValue"],
@@ -19,15 +22,25 @@ export default defineComponent({
 
 <template>
 	<div>
-		<label :for="'input-' + id" class="col-form-label">{{ title }}</label>
+		<label :for="'input-' + id" class="col-form-label">{{
+			title
+		}}</label>
 		<input
-                  type="date"
+			type="date"
 			class="form-control"
 			aria-describedby="'input-help-' + id"
 			:id="'input-' + id"
 			:value="modelValue"
-			@input="$emit('update:modelValue', ($event.target! as HTMLInputElement).value)"
+			@input="
+				$emit(
+					'update:modelValue',
+					($event.target! as HTMLInputElement)
+						.value
+				)
+			"
 		/>
-		<span :id="'input-help-' + id" class="form-text">{{ help }}</span>
+		<span :id="'input-help-' + id" class="form-text">{{
+			help
+		}}</span>
 	</div>
 </template>

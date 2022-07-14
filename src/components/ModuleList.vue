@@ -1,13 +1,23 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import VideoLibraryDataService from "@/services/VideoLibraryDataService";
-import type { CourseEvent, CourseSection, CourseSections } from "@/interface.js";
-import { getCourseItemKey, convertCourseItemToCourseItemOption } from "@/interface";
-import type { PropType } from 'vue';
+import type {
+	CourseEvent,
+	CourseSection,
+	CourseSections,
+} from "@/interface.js";
+import {
+	getCourseItemKey,
+	convertCourseItemToCourseItemOption,
+} from "@/interface";
+import type { PropType } from "vue";
 
 export default defineComponent({
 	props: {
-		basket: { type: Object as PropType<CourseSections>, required: true },
+		basket: {
+			type: Object as PropType<CourseSections>,
+			required: true,
+		},
 		videoList: Map<string, any>,
 		sessionList: [] as any[],
 		basicsList: Array<string>,
@@ -19,7 +29,9 @@ export default defineComponent({
 			// parent and they'll track it.
 			if (event.target) {
 				const target = event.target as HTMLElement;
-				const targetId = (target.parentElement as HTMLElement).id;
+				const targetId = (
+					target.parentElement as HTMLElement
+				).id;
 
 				this.$emit("scheduleUpdate", {
 					id: targetId,
@@ -31,28 +43,42 @@ export default defineComponent({
 		getVideosForTag(tag: string) {
 			// return Object.keys(this.videoList[tag]);
 			// You're really telling me THIS is better???
-			if(!this.videoList) return [];
-			return Object.keys(this.videoList[tag as keyof typeof this.videoList]);
+			if (!this.videoList) return [];
+			return Object.keys(
+				this.videoList[
+					tag as keyof typeof this.videoList
+				]
+			);
 		},
 		shouldBeActive(key: string) {
 			let output = "";
 			// Check if the key is in one of the training sections
 			Object.keys(this.basket).forEach((section) => {
-				this.basket[section].trainings.forEach((training) => {
-					if(getCourseItemKey(training) === key) {
-						output = "active";
+				this.basket[section].trainings.forEach(
+					(training) => {
+						if (
+							getCourseItemKey(
+								training
+							) === key
+						) {
+							output = "active";
+						}
 					}
-				})
+				);
 			});
 			return output;
 		},
 		unKebab(value: string) {
 			return value
 				.split("-")
-				.map((x) => x.charAt(0).toUpperCase() + x.slice(1))
+				.map(
+					(x) =>
+						x.charAt(0).toUpperCase() +
+						x.slice(1)
+				)
 				.join(" ");
 		},
-	}
+	},
 });
 </script>
 
@@ -60,17 +86,40 @@ export default defineComponent({
 	<div class="module-list">
 		<b>Basics</b>
 		<ul class="list-group a">
-			<a v-for="key in basicsList" @click="addToBasket" :id="'basics:' + key">
-				<li :class="'list-group-item ' + shouldBeActive(`basics:${key}`)">
+			<a
+				v-for="key in basicsList"
+				@click="addToBasket"
+				:id="'basics:' + key"
+			>
+				<li
+					:class="
+						'list-group-item ' +
+						shouldBeActive(`basics:${key}`)
+					"
+				>
 					{{ unKebab(key) }}
 				</li>
 			</a>
 		</ul>
 		<b>Sessions</b>
 		<ul class="list-group a">
-			<a v-for="sessionKey in Object.keys(sessionList)" @click="addToBasket" :id="'session:' + sessionKey">
-				<li :class="'list-group-item ' + shouldBeActive(`session:${sessionKey}`)">
-					{{ (sessionList as any)[sessionKey].title }}
+			<a
+				v-for="sessionKey in Object.keys(sessionList)"
+				@click="addToBasket"
+				:id="'session:' + sessionKey"
+			>
+				<li
+					:class="
+						'list-group-item ' +
+						shouldBeActive(
+							`session:${sessionKey}`
+						)
+					"
+				>
+					{{
+						(sessionList as any)[sessionKey]
+							.title
+					}}
 				</li>
 			</a>
 		</ul>
@@ -84,10 +133,24 @@ export default defineComponent({
 					v-for="videoKey in Object.keys((videoList as any)[tag].videos)"
 					@click="addToBasket"
 				>
-					<li class="list-group-item" :class="'list-group-item ' + shouldBeActive(`video:${videoKey}`)">
-						{{ (videoList as any)[tag].videos[videoKey].title }}
+					<li
+						class="list-group-item"
+						:class="
+							'list-group-item ' +
+							shouldBeActive(
+								`video:${videoKey}`
+							)
+						"
+					>
+						{{
+							(videoList as any)[tag]
+								.videos[
+								videoKey
+							].title
+						}}
 
-						<span class="uncaptioned"
+						<span
+							class="uncaptioned"
 							v-if="!(videoList as any)[tag].videos[videoKey].captioned"
 							title="This video lacks captions, it is not appropriate for users with a hearing impairment. Captions are welcome if you have time, just ask WG-GOAT!"
 							>🧏‍♀️</span

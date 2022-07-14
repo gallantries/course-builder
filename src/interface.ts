@@ -6,80 +6,96 @@ export type CourseItem = {
 
 export type CourseItemBasics = {
 	basics: string;
-	id: string | undefined;      // session:blah
-	title: string | undefined;   // My Session
+	id: string | undefined; // session:blah
+	title: string | undefined; // My Session
 	section: string | undefined; // session
 };
 
 export type CourseItemVideo = {
 	video: string;
-	id: string | undefined;      // session:blah
-	title: string | undefined;   // My Session
+	id: string | undefined; // session:blah
+	title: string | undefined; // My Session
 	section: string | undefined; // session
 };
 
 export type CourseItemSession = {
 	session: string;
-	id: string | undefined;      // session:blah
-	title: string | undefined;   // My Session
+	id: string | undefined; // session:blah
+	title: string | undefined; // My Session
 	section: string | undefined; // session
 };
 
 export type CourseItemSelfStudy = {
-	'self-study': string;
-	id: string | undefined;      // session:blah
-	title: string | undefined;   // My Session
+	"self-study": string;
+	id: string | undefined; // session:blah
+	title: string | undefined; // My Session
 	section: string | undefined; // session
 };
 
-export type CourseItemOptions = CourseItemVideo | CourseItemSession | CourseItemBasics | CourseItemSelfStudy;
+export type CourseItemOptions =
+	| CourseItemVideo
+	| CourseItemSession
+	| CourseItemBasics
+	| CourseItemSelfStudy;
 
 export function getCourseItemKey(item: CourseItemOptions): string | null {
-	if("basics" in item){
+	if ("basics" in item) {
 		return `basics:${item.basics}`;
-	} else if("video" in item){
+	} else if ("video" in item) {
 		return `video:${item.video}`;
-	} else if("session" in item){
+	} else if ("session" in item) {
 		return `session:${item.session}`;
-	} else if("self-study" in item){
-		return `self-study:${item['self-study']}`;
+	} else if ("self-study" in item) {
+		return `self-study:${item["self-study"]}`;
 	}
-	return null
+	return null;
 }
 
-export function convertCourseItemToCourseItemOption(item: CourseItem): CourseItemOptions | null {
+export function convertCourseItemToCourseItemOption(
+	item: CourseItem
+): CourseItemOptions | null {
 	// Any extra properties to preserve
-	let extra_props: Array<string> = Object.keys(item).filter(x => x !== 'id');
-	if (item.section == 'basics'){
-		let res = {
-			basics: item.id.split(':')[1]
-		} as CourseItemBasics
+	const extra_props: Array<string> = Object.keys(item).filter(
+		(x) => x !== "id"
+	);
+	if (item.section == "basics") {
+		const res = {
+			basics: item.id.split(":")[1],
+		} as CourseItemBasics;
 		// meh
-		extra_props.forEach(x => (res as any)[x] = (item as any)[x]);
-		return res; 
-	} else if (item.section == 'session') {
-		let res = {
-			session: item.id.split(':')[1]
-		} as CourseItemSession
+		extra_props.forEach(
+			(x) => ((res as any)[x] = (item as any)[x])
+		);
+		return res;
+	} else if (item.section == "session") {
+		const res = {
+			session: item.id.split(":")[1],
+		} as CourseItemSession;
 		// meh
-		extra_props.forEach(x => (res as any)[x] = (item as any)[x]);
-		return res; 
-	} else if (item.section == 'video') {
-		let res = {
-			video: item.id.split(':')[1]
-		} as CourseItemVideo
+		extra_props.forEach(
+			(x) => ((res as any)[x] = (item as any)[x])
+		);
+		return res;
+	} else if (item.section == "video") {
+		const res = {
+			video: item.id.split(":")[1],
+		} as CourseItemVideo;
 		// meh
-		extra_props.forEach(x => (res as any)[x] = (item as any)[x]);
-		return res; 
-	} else if (item.section == 'self-study') {
-		let res = {
-			'self-study': item.id.split(':')[1]
-		} as CourseItemSelfStudy
+		extra_props.forEach(
+			(x) => ((res as any)[x] = (item as any)[x])
+		);
+		return res;
+	} else if (item.section == "self-study") {
+		const res = {
+			"self-study": item.id.split(":")[1],
+		} as CourseItemSelfStudy;
 		// meh
-		extra_props.forEach(x => (res as any)[x] = (item as any)[x]);
-		return res; 
+		extra_props.forEach(
+			(x) => ((res as any)[x] = (item as any)[x])
+		);
+		return res;
 	}
-	return null
+	return null;
 }
 
 export type CourseSection = {

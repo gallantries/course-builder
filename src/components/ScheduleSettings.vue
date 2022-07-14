@@ -11,7 +11,9 @@ export default defineComponent({
 <template>
 	<div class="row g-3 align-items-center">
 		<div class="col-md-2 text-end">
-			<label for="i-title" class="col-form-label">Title</label>
+			<label for="i-title" class="col-form-label"
+				>Title</label
+			>
 		</div>
 		<div class="col-md-3">
 			<input
@@ -29,7 +31,9 @@ export default defineComponent({
 	</div>
 	<div class="row g-3 align-items-center">
 		<div class="col-md-2 text-end">
-			<label for="i-description" class="col-form-label">Description</label>
+			<label for="i-description" class="col-form-label"
+				>Description</label
+			>
 		</div>
 		<div class="col-md-3">
 			<input
@@ -47,7 +51,9 @@ export default defineComponent({
 	</div>
 	<div class="row g-3 align-items-center">
 		<div class="col-md-2 text-end">
-			<label for="i-instructors" class="col-form-label">Event Instructors</label>
+			<label for="i-instructors" class="col-form-label"
+				>Event Instructors</label
+			>
 		</div>
 		<div class="col-md-3">
 			<select
@@ -62,7 +68,9 @@ export default defineComponent({
 			</select>
 		</div>
 		<div class="col-md-6">
-			<span id="i-instructors-help" class="form-text"> Who all is involved in teaching this event? </span>
+			<span id="i-instructors-help" class="form-text">
+				Who all is involved in teaching this event?
+			</span>
 		</div>
 	</div>
 </template>

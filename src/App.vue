@@ -46,12 +46,12 @@ export default defineComponent({
         data() {
                 const today = new Date();
                 const program: CourseSections = {
-                        // setup: {
-                        // 	title: "Setup",
-                        // 	description: "Get setup with Galaxy before we start",
-                        // 	trainings: [],
-                        // 	id: 0,
-                        // },
+                        setup: {
+                        	title: "Setup",
+                        	description: "Get setup with Galaxy before we start",
+                        	trainings: [],
+                        	id: 0,
+                        },
                 };
                 const event: CourseEvent = {
                         layout: "event",
